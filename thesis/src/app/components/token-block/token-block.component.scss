@@ -1,0 +1,66 @@
+:host {
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 20px;
+  border: 1px solid rgb(27 79 180 / 87%);
+  background: #f1f7ff;
+  font-family: fantasy;
+}
+
+.name-wrap {
+  display: grid;
+  grid-template-columns: 40px 1fr 28px;
+  grid-column-gap: 8px;
+  align-items: center;
+  margin: 12px 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.token-bg {
+  width: 40px;
+  height: 40px;
+  background: rgba(27, 79, 180, 0.71);
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  svg {
+    fill: aliceblue;
+  }
+
+  &:hover {
+    opacity: unset;
+    cursor: pointer;
+    background: rgba(27, 79, 180, 0.81);
+  }
+}
+
+.address-input {
+  border: none;
+  outline-width: 0;
+  height: 24px;
+  background: transparent;
+  padding: 8px 8px 2px 8px;
+  font-family: fantasy;
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+
+.amount-input {
+  width: calc(100% - 16px);
+  border-radius: 4px;
+  height: 24px;
+  padding: 4px 8px;
+  font-size: 20px;
+  outline-width: 0;
+  margin-top: 8px;
+  background: rgb(27 79 180 / 14%);
+  border: 1px solid rgb(27 79 180 / 30%);
+}
+
