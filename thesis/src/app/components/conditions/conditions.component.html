@@ -1,0 +1,60 @@
+<div class="conditions-wrap">
+  <span>Conditions</span>
+
+  <button *ngFor="let condition of conditions"
+          class="condition-icon {{condition}}"
+          [class.is-active]="isSelectedCondition(condition)"
+          (click)="toggleCondition(condition)">
+
+    <svg width="32" height="32">
+      <use [attr.xlink:href]="'assets/' + condition + '.svg#' + condition"></use>
+    </svg>
+
+  </button>
+</div>
+
+<div *ngIf="isSelectedCondition(ConditionType.timeExpiration)" class="block">
+  <p class="block-title">Time expiration</p>
+
+  <div class="block-content">
+    <div class="block-sub">
+      <span>Hours: </span>
+      <input class="common-input">
+    </div>
+
+    <div class="block-sub">
+      <span>Minutes: </span>
+      <input class="common-input">
+    </div>
+  </div>
+</div>
+
+<svg *ngIf="isSelectedCondition(ConditionType.timeExpiration) &&
+  (isSelectedCondition(ConditionType.takeProfit) || isSelectedCondition(ConditionType.stopLoss))" width="28" height="28"
+     class="and-icon">
+  <use xlink:href="assets/and.svg#and"></use>
+</svg>
+
+<div *ngIf="isSelectedCondition(ConditionType.takeProfit)" class="block">
+  <p class="block-title">Take profit</p>
+
+  <div class="block-sub">
+    <span>Desired price: </span>
+    <input class="common-input">
+  </div>
+</div>
+
+<svg *ngIf="isSelectedCondition(ConditionType.stopLoss) &&
+  (isSelectedCondition(ConditionType.takeProfit) || isSelectedCondition(ConditionType.timeExpiration))" width="28" height="28"
+     class="and-icon">
+  <use xlink:href="assets/and.svg#and"></use>
+</svg>
+
+<div *ngIf="isSelectedCondition(ConditionType.stopLoss)" class="block">
+  <p class="block-title">Stop loss</p>
+
+  <div class="block-sub">
+    <span>Extreme price: </span>
+    <input class="common-input">
+  </div>
+</div>

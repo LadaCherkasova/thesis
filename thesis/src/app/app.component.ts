@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {StateStore} from "./services/state.store";
 import Web3 from 'web3'
 import {StateQuery} from "./services/state.query";
-import { filter, map } from "rxjs";
-import { utils } from 'ethers';
+import {filter, map} from "rxjs";
+import {utils} from 'ethers';
 import {StateService} from "./services/state.service";
 
 export const web3 = new Web3(Web3.givenProvider);
@@ -34,7 +34,12 @@ export class AppComponent {
     })
   );
 
-  constructor(private state: StateStore, private query: StateQuery, private stateService: StateService) {}
+
+  constructor(
+    private state: StateStore,
+    private query: StateQuery,
+    private stateService: StateService,
+  ) {}
 
   updateSourceAddress(address: string): void {
     this.state.update({

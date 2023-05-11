@@ -1,0 +1,85 @@
+:host {
+  margin: 16px 0;
+  font-family: fantasy;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.conditions-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.condition-icon {
+  margin-left: 12px;
+  color: rgba(27, 79, 180, 0.3);
+
+  &.is-active,
+  &:hover {
+    opacity: unset;
+
+    &.timeExpiration {
+      color: rgba(27, 79, 180, 0.8);
+    }
+
+    &.stopLoss {
+      color: #ea6868;
+    }
+
+    &.takeProfit {
+      color: #2e852ec7;
+    }
+  }
+}
+
+.conditions-wrap + .block {
+  margin-top: 16px;
+}
+
+.block {
+  background: transparent;
+}
+
+.block-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.block-sub {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-top: 4px;
+  }
+}
+
+.block-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 4px;
+}
+
+.common-input {
+  margin-left: 8px;
+  width: 250px;
+}
+
+.and-icon {
+  z-index: 1;
+  margin: -4px auto 0 auto;
+  padding: 4px;
+  border-radius: 100%;
+  color: rgb(27 79 180 / 87%);
+  background: #f1f7ff;
+  border: 1px solid rgb(27 79 180 / 87%);
+}
+
+.and-icon + .block {
+  margin-top: -4px;
+}
+
+.and-icon + .and-icon {
+  display: none;
+}

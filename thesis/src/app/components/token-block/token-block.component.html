@@ -1,31 +1,33 @@
-<div>
-  <span>Total:</span>
-  <span>&nbsp;&nbsp;</span>
-  <span [textContent]="balance ?? 0"></span>
-  <span>&nbsp;&nbsp;</span>
-  <span [textContent]="symbol ?? ''"></span>
+<div class="block">
+  <div>
+    <span>Total:</span>
+    <span>&nbsp;&nbsp;</span>
+    <span [textContent]="balance ?? 0"></span>
+    <span>&nbsp;&nbsp;</span>
+    <span [textContent]="symbol ?? ''"></span>
+  </div>
+
+  <div class="name-wrap">
+
+    <a *tuiLet="currentAddress$ | async as address"
+       href="https://etherscan.io/token/{{address}}"
+       target="_blank"
+       class="token-bg" [class.disabled]="address === ''">
+
+      <svg width="28" height="28">
+        <use xlink:href="assets/coin.svg#coin"></use>
+      </svg>
+    </a>
+
+    <input [formControl]="tokenAddress" class="address-input">
+
+    <button (click)="copyAddress()">
+      <svg width="28" height="28">
+        <use xlink:href="assets/copy.svg#copy"></use>
+      </svg>
+    </button>
+
+  </div>
+
+  <input class="common-input">
 </div>
-
-<div class="name-wrap">
-
-  <a *tuiLet="currentAddress$ | async as address"
-     href="https://etherscan.io/token/{{address}}"
-     target="_blank"
-     class="token-bg" [class.disabled]="address === ''">
-
-    <svg width="28" height="28">
-      <use xlink:href="assets/coin.svg#coin"></use>
-    </svg>
-  </a>
-
-  <input [formControl]="tokenAddress" class="address-input">
-
-  <button (click)="copyAddress()">
-    <svg width="28" height="28">
-      <use xlink:href="assets/copy.svg#copy"></use>
-    </svg>
-  </button>
-
-</div>
-
-<input class="amount-input">

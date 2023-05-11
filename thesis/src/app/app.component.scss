@@ -1,8 +1,5 @@
 .page-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 400px 450px;
+  margin: 150px 450px;
   border-radius: 16px;
   padding: 32px 16px;
   background: rgb(222 232 254);
@@ -14,11 +11,15 @@
   grid-template-columns: 1fr 32px 1fr;
   align-items: center;
   grid-column-gap: 8px;
+}
 
-  svg {
-    height: 32px;
-    color: rgb(27 79 180 / 87%);
-    background: #ffffff4d;
-    border-radius: 100%;
-  }
+.submit-button {
+  background: rgba(27, 79, 180, 0.71);
+  height: 44px;
+  width: 100%;
+  color: white;
+  font-size: 20px;
+  font-family: fantasy;
+  padding: 8px 0 2px 0;
+  border-radius: 8px;
 }

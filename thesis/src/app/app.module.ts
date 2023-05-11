@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import {TokenBlockModule} from "./components/token-block/token-block.module";
 import {CommonModule} from "@angular/common";
 import {StateService} from "./services/state.service";
+import {ConditionsModule} from "./components/conditions/conditions.module";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {StateService} from "./services/state.service";
     BrowserModule,
     TokenBlockModule,
     CommonModule,
+    ConditionsModule,
   ],
   providers: [StateService],
   bootstrap: [AppComponent]

@@ -20,6 +20,8 @@
     "@angular/router": "^16.0.0",
     "@datorama/akita": "^8.0.1",
     "@taiga-ui/cdk": "^3.26.0",
+    "@taiga-ui/core": "^3.26.0",
+    "@taiga-ui/kit": "^3.26.0",
     "ethers": "^5.7.2",
     "ngx-clipboard": "^16.0.0",
     "rxjs": "~7.8.0",
