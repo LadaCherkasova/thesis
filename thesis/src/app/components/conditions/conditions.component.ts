@@ -1,9 +1,6 @@
-import {Component} from '@angular/core';
-import {StateStore} from "../../services/state.store";
-import {ConditionsStore, ConditionType} from "../../services/conditions.state";
-import {StateQuery} from "../../services/state.query";
-import {StateService} from "../../services/state.service";
-import {ConditionsQuery} from "../../services/conditions.query";
+import { Component } from '@angular/core';
+import { ConditionsStore, ConditionType } from "../../services/conditions/conditions.state";
+import { ConditionsQuery } from "../../services/conditions/conditions.query";
 
 @Component({
   selector: 'conditions',
@@ -17,9 +14,6 @@ export class ConditionsComponent {
   readonly ConditionType = ConditionType;
 
   constructor(
-    private state: StateStore,
-    private query: StateQuery,
-    private stateService: StateService,
     private conditionsQuery: ConditionsQuery,
     private conditionsStore: ConditionsStore,
   ) {}

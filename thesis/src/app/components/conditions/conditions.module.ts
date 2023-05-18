@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConditionsComponent } from './conditions.component';
+import { ConditionsQuery } from "../../services/conditions/conditions.query";
 
 @NgModule({
   declarations: [ConditionsComponent],
@@ -8,5 +9,6 @@ import { ConditionsComponent } from './conditions.component';
     CommonModule,
   ],
   exports: [ConditionsComponent],
+  providers: [ConditionsQuery]
 })
 export class ConditionsModule { }

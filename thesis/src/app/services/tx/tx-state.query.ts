@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
-import { State, StateStore } from './state.store';
+import { TxState, TxStateStore } from './tx-state.store';
 
 @Injectable({ providedIn: 'root' })
-export class StateQuery extends Query<State> {
-  constructor(protected defStore: StateStore) {
+export class TxStateQuery extends Query<TxState> {
+  constructor(protected defStore: TxStateStore) {
     super(defStore);
   }
 
@@ -15,4 +15,6 @@ export class StateQuery extends Query<State> {
   readonly sourceTokenInfo$ = this.select('sourceToken');
 
   readonly destinationTokenInfo$ = this.select('destinationToken');
+
+  readonly walletAddress$ = this.select('walletAddress');
 }

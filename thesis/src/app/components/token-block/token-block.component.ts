@@ -1,13 +1,14 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { ClipboardService } from 'ngx-clipboard';
-import {StateStore} from "../../services/state.store";
+import { TxStateStore } from "../../services/tx/tx-state.store";
 
 @Component({
   selector: 'app-token-block',
   templateUrl: './token-block.component.html',
-  styleUrls: ['./token-block.component.scss']
+  styleUrls: ['./token-block.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenBlockComponent implements OnInit, OnDestroy {
   @Input()
@@ -28,7 +29,7 @@ export class TokenBlockComponent implements OnInit, OnDestroy {
 
   readonly subscription = new Subscription();
 
-  constructor(private clipboardService: ClipboardService, private store: StateStore) {
+  constructor(private clipboardService: ClipboardService, private store: TxStateStore) {
     const addressChanges$ = this.tokenAddress.valueChanges.subscribe(
       (address) => {
         address = address?.trim().toLowerCase() as string;

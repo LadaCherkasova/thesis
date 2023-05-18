@@ -1,0 +1,38 @@
+<ng-container *tuiLet="currentStep$ | async as step">
+
+  <p class="wallet-connection_title">Metamask connection</p>
+
+  <button class="accent-button"
+          (click)="connectMetamask()">Connect Metamask</button>
+
+  <div *ngIf="step"
+       class="wallet-connection_step"
+       [class.loading]="step === 1"
+       [class.success]="step > 1">
+    <p>1. Provider check</p>
+    <img src="assets/loading.gif" alt="">
+  </div>
+
+  <div *ngIf="step"
+       class="wallet-connection_step"
+       [class.loading]="step === 2"
+       [class.success]="step > 2">
+    <p>2. Chain ID check</p>
+    <img src="assets/loading.gif" alt="">
+  </div>
+
+  <ng-container *ngIf="walletAddress$ | async as address">
+    <p>Connected wallet address: {{ address }}</p>
+  </ng-container>
+
+  <p *ngIf="currentErrorText$ | async as errorText"
+     class="error-text">{{ errorText }}</p>
+
+</ng-container>
+
+<svg *ngIf="showCloseButton"
+     class="close-icon"
+     (click)="close()"
+     width="24" height="24">
+  <use xlink:href="assets/close.svg#close"></use>
+</svg>

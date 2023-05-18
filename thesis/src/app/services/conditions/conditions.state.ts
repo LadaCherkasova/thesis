@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import {persistState, Store, StoreConfig} from "@datorama/akita";
+import { Injectable } from "@angular/core";
+import { persistState, Store, StoreConfig } from "@datorama/akita";
 
 export enum ConditionType {
   timeExpiration = 'timeExpiration',
@@ -17,14 +17,17 @@ export function createInitialState(): ConditionsState {
   };
 }
 
-const newConditionsStoreKey = 'new-conditions-store';
+const conditionsStoreKey = 'conditions-store';
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: newConditionsStoreKey })
+@StoreConfig({ name: conditionsStoreKey })
 export class ConditionsStore extends Store<ConditionsState> {
   constructor() {
     super(createInitialState());
   }
 }
 
-export const persistStorage = persistState({include: [newConditionsStoreKey]});
+export const conditionsPersistStorage = persistState({
+  key: conditionsStoreKey,
+  include: [conditionsStoreKey],
+});

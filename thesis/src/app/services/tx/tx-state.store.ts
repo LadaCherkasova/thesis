@@ -9,7 +9,7 @@ export interface Token {
   balance: bigint,
 }
 
-export interface State {
+export interface TxState {
   walletAddress: string,
   sourceAddress: string,
   destinationAddress: string,
@@ -17,7 +17,7 @@ export interface State {
   destinationToken: Token | undefined;
 }
 
-export function createInitialState(): State {
+export function createInitialState(): TxState {
   return {
     walletAddress: '',
     sourceAddress: '',
@@ -31,10 +31,13 @@ const mainStoreKey = 'main-store';
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: mainStoreKey })
-export class StateStore extends Store<State> {
+export class TxStateStore extends Store<TxState> {
   constructor() {
     super(createInitialState());
   }
 }
 
-export const persistStorage = persistState({include: [mainStoreKey]});
+export const txPersistStorage = persistState({
+  key: mainStoreKey,
+  include: [mainStoreKey],
+});
