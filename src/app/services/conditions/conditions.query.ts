@@ -8,5 +8,5 @@ export class ConditionsQuery extends Query<ConditionsState> {
     super(defStore);
   }
 
-  readonly selectedConditions$ = this.select('selectedConditions');
+  readonly expirationMs$ = this.select('expirationMs');
 }

@@ -89,6 +89,6 @@ export class TxStateService {
       }),
     ).subscribe();
 
-    this.subscription.add(sourceTokenInfo$);
+    this.subscription.add(destinationTokenInfo$);
   }
 }

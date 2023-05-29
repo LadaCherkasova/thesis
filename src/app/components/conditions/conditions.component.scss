@@ -19,17 +19,31 @@
   &:hover {
     opacity: unset;
 
-    &.timeExpiration {
+    &.time-expiration {
       color: rgba(27, 79, 180, 0.8);
     }
 
-    &.stopLoss {
-      color: #ea6868;
-    }
+    //&.stopLoss {
+    //  color: #ea6868;
+    //}
+    //
+    //&.takeProfit {
+    //  color: #2e852ec7;
+    //}
+  }
+}
 
-    &.takeProfit {
-      color: #2e852ec7;
-    }
+.option-icon {
+  margin: 0 6px 0 auto;
+
+  svg {
+    border-radius: 100%;
+    width: 24px;
+    padding: 2px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(27, 79, 180, 0.87);
+    color: rgba(27, 79, 180, 0.87);
   }
 }
 
@@ -38,7 +52,9 @@
 }
 
 .block {
-  background: transparent;
+  height: 84px;
+  background: rgb(222, 232, 254);
+  z-index: 1;
 }
 
 .block-title {
@@ -82,4 +98,84 @@
 
 .and-icon + .and-icon {
   display: none;
+}
+
+.new-condition {
+  border-radius: 12px;
+  padding: 20px 12px 12px 12px;
+  margin-top: 16px;
+  background: rgba(27, 79, 180, 0.27);
+
+  .block {
+    display: flex;
+    flex-direction: column;
+    height: unset;
+    padding: 16px;
+  }
+
+  .common-input {
+    font-size: 16px;
+    margin-bottom: 12px;
+    background: #f1f7ff;
+  }
+
+  textarea {
+    height: 60px;
+    width: calc(100% - 32px);
+  }
+}
+
+.block + .new-condition,
+.condition-items + .new-condition {
+  margin-top: -8px;
+  border-radius: 0 0 12px 12px;
+}
+
+.condition-items {
+  z-index: 1;
+}
+
+.new-condition__types-options {
+  margin-top: 8px;
+}
+
+.error-text {
+  margin-top: 8px;
+  color: #a51212;
+  font-weight: 600;
+}
+
+.new-condition__header {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .option-icon {
+    margin-left: 12px;
+
+    &:last-of-type {
+      margin-left: auto;
+    }
+  }
+}
+
+.and-sign {
+  font-size: 16px;
+  padding: 6px 6px 4px 4px;
+  border-radius: 100%;
+  background: #f1f7ff;
+  width: fit-content;
+  border: 1px solid rgba(27, 79, 180, 0.87);
+  margin: -4px auto;
+  z-index: 2;
+  position: relative;
+}
+
+.conditions-wrap + .condition-items {
+  margin-top: 16px;
+
+  .and-sign {
+    display: none;
+  }
 }

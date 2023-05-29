@@ -41,6 +41,7 @@ button {
   font-size: 20px;
   outline-width: 0;
   margin-top: 8px;
+  font-family: monospace;
   background: rgb(27 79 180 / 14%);
   border: 1px solid rgb(27 79 180 / 30%);
 }
@@ -74,6 +75,7 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 2;
   background: #00000047;
 }
 

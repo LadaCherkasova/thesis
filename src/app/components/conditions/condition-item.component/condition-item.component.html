@@ -1,0 +1,38 @@
+<div *ngIf="config" class="condition-item">
+
+  <div>
+    <p>
+      <span>Contract address: </span>
+      <span class="value">{{ transformValue(config.contractAddress) }}</span>
+    </p>
+
+    <p>
+      <span>Method name: </span>
+      <span class="value">{{ config.methodName }}</span>
+    </p>
+  </div>
+
+  <div *ngIf="config.parameters">
+
+    <span>Parameters: </span>
+    <ul class="parameters-list">
+      <li *ngFor="let parameter of config.parameters" class="value">{{ transformValue(parameter) }}</li>
+    </ul>
+
+  </div>
+
+  <div class="equation-part">
+
+    <div class="option-icon">
+      <svg width="32" height="32">
+        <use [attr.xlink:href]="'assets/' + conditionIconName[config.type] + '.svg#' + conditionIconName[config.type]"></use>
+      </svg>
+    </div>
+
+   <div *ngIf="config.comparisonValue">
+     <span>Comparison value: </span>
+     <span class="value">{{ config.comparisonValue }}</span>
+   </div>
+
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <div class="header">
 
-  <ng-container *ngIf="transformedWalletAddress$ | async as address">
+  <ng-container *tuiLet="transformedWalletAddress$ | async as address">
     <img src="assets/metamask-logo.png" alt="">
     <span>{{ address }}</span>
   </ng-container>
@@ -12,7 +12,8 @@
   <div class="tokens-row">
     <app-token-block [balance]="sourceTokenAmount$ | async"
                      [symbol]="(sourceTokenInfo$ | async)?.symbol"
-                     (addressChange)="updateSourceAddress($event)"></app-token-block>
+                     (addressChange)="updateSourceAddress($event)"
+                     (amountChange)="updateSourceAmount($event)"></app-token-block>
 
     <svg width="32" height="32" class="icon">
       <use xlink:href="assets/arrow.svg#arrow"></use>
@@ -21,10 +22,14 @@
     <app-token-block [balance]="destinationTokenAmount$ | async"
                      [symbol]="(destinationTokenInfo$ | async)?.symbol"
                      [isSource] = false
-                     (addressChange)="updateDestinationAddress($event)"></app-token-block>
+                     (addressChange)="updateDestinationAddress($event)"
+                     (amountChange)="updateDestinationAmount($event)"></app-token-block>
   </div>
 
   <conditions></conditions>
 
-  <button class="submit-button">Submit limit order</button>
+  <button class="submit-button" (click)="submit()">Submit limit order</button>
+
+  <button class="submit-button" (click)="getOrders()">Get orders</button>
+
 </div>

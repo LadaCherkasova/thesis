@@ -15,6 +15,8 @@ export interface TxState {
   destinationAddress: string,
   sourceToken: Token | undefined;
   destinationToken: Token | undefined;
+  sourceAmount: number;
+  destinationAmount: number;
 }
 
 export function createInitialState(): TxState {
@@ -24,6 +26,8 @@ export function createInitialState(): TxState {
     destinationAddress: '',
     sourceToken: undefined,
     destinationToken: undefined,
+    sourceAmount: 0,
+    destinationAmount: 0,
   };
 }
 

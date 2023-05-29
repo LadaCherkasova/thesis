@@ -23,9 +23,14 @@ export class TokenBlockComponent implements OnInit, OnDestroy {
   @Output()
   addressChange = new EventEmitter<string>;
 
+  @Output()
+  amountChange = new EventEmitter<number>;
+
   readonly currentAddress$ = new BehaviorSubject<string>('');
 
   readonly tokenAddress = new FormControl<string>('');
+
+  readonly tokenAmount = new FormControl<string>('');
 
   readonly subscription = new Subscription();
 
@@ -35,7 +40,6 @@ export class TokenBlockComponent implements OnInit, OnDestroy {
         address = address?.trim().toLowerCase() as string;
         const regexp = new RegExp('0x[0-9a-fA-F]{40}$');
 
-        // check format of address
         if (!address.match(regexp)) {
           this.addressChange.emit('');
           this.currentAddress$.next('');
@@ -50,6 +54,13 @@ export class TokenBlockComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(addressChanges$);
+
+    const amountChanges$ = this.tokenAmount.valueChanges.subscribe(
+      (value) => {
+        const val = value || 0;
+        this.amountChange.emit(+val);
+      }
+    )
   }
 
   ngOnInit(): void {

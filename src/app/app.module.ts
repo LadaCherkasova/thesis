@@ -9,6 +9,12 @@ import { ConditionsModule } from "./components/conditions/conditions.module";
 import { TuiDialogModule } from "@taiga-ui/core";
 import { WalletConnectionModule } from "./components/wallet-connection/wallet-connection.module";
 import { MatDialogModule } from '@angular/material/dialog';
+import {TuiLetModule} from "@taiga-ui/cdk";
+import { HttpClientModule } from '@angular/common/http';
+import {TextToAbiService} from "./services/text-to-abi.service";
+import {ReactiveFormsModule} from "@angular/forms";
+import {BuildPredicateService} from "./services/build-predicate.service";
+import {BuildLimitOrderService} from "./services/build-limit-order.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,8 +26,16 @@ import { MatDialogModule } from '@angular/material/dialog';
     ConditionsModule,
     WalletConnectionModule,
     MatDialogModule,
+    TuiLetModule,
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
-  providers: [TxStateService],
+  providers: [
+    TxStateService,
+    TextToAbiService,
+    BuildPredicateService,
+    BuildLimitOrderService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

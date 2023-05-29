@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@1inch/limit-order-protocol-utils": "3.1.2",
     "@angular/animations": "^16.0.0",
     "@angular/cdk": "^16.0.1",
     "@angular/common": "^16.0.0",
@@ -26,8 +27,10 @@
     "@taiga-ui/cdk": "^3.26.0",
     "@taiga-ui/core": "^3.26.0",
     "@taiga-ui/kit": "^3.26.0",
+    "buffer": "^6.0.3",
     "ethers": "^5.7.2",
     "ngx-clipboard": "^16.0.0",
+    "rambda": "^7.5.0",
     "rxjs": "~7.8.0",
     "taiga-ui": "^3.26.0",
     "tslib": "^2.3.0",
@@ -48,5 +51,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~5.0.2"
+  },
+  "browser": {
+    "assert": false,
+    "stream": false
   }
 }

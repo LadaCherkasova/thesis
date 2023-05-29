@@ -1,60 +1,102 @@
-<div class="conditions-wrap">
-  <span>Conditions</span>
+<ng-container *tuiLet="expirationMs$ | async as expiration">
+  <div class="conditions-wrap">
+    <span>Conditions</span>
 
-  <button *ngFor="let condition of conditions"
-          class="condition-icon {{condition}}"
-          [class.is-active]="isSelectedCondition(condition)"
-          (click)="toggleCondition(condition)">
+    <button class="condition-icon time-expiration"
+            [class.is-active]="expiration !== undefined"
+            (click)="toggleTimeExpiration()">
+      <svg width="32" height="32">
+        <use xlink:href="assets/timeExpiration.svg#timeExpiration"></use>
+      </svg>
+    </button>
 
-    <svg width="32" height="32">
-      <use [attr.xlink:href]="'assets/' + condition + '.svg#' + condition"></use>
-    </svg>
+    <button class="option-icon"
+            (click)="addNewCondition()" >
+      <svg width="32" height="32">
+        <use xlink:href="assets/plus.svg#plus"></use>
+      </svg>
+    </button>
+  </div>
 
-  </button>
-</div>
+  <div *ngIf="expiration !== undefined" class="block">
+    <p class="block-title">Time expiration</p>
 
-<div *ngIf="isSelectedCondition(ConditionType.timeExpiration)" class="block">
-  <p class="block-title">Time expiration</p>
+    <div class="block-content">
+      <div class="block-sub">
+        <span>Hours: </span>
+        <input class="common-input" [formControl]="hoursFormControl">
+      </div>
 
-  <div class="block-content">
-    <div class="block-sub">
-      <span>Hours: </span>
-      <input class="common-input">
+      <div class="block-sub">
+        <span>Minutes: </span>
+        <input class="common-input" [formControl]="minutesFormControl">
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor="let config of conditionItems" class="condition-items">
+    <div class="and-sign">and</div>
+
+    <condition-item class="block" [config]="config"></condition-item>
+  </div>
+
+  <div *ngIf="showSelection" class="new-condition">
+    <div class="new-condition__header">
+      <p [innerText]="!!createdCondition && createdCondition['type'] ? 'Selected type:' : 'Create new condition' "></p>
+
+      <ng-container *ngIf="!!createdCondition && createdCondition['type']">
+
+        <button class="option-icon">
+          <svg width="32" height="32">
+            <use [attr.xlink:href]="'assets/' + conditionIconName[createdCondition['type']] + '.svg#' + conditionIconName[createdCondition['type']]"></use>
+          </svg>
+        </button>
+
+        <button class="option-icon" (click)="submitCondition()">
+          <svg width="32" height="32">
+            <use xlink:href="assets/check.svg#check"></use>
+          </svg>
+        </button>
+
+      </ng-container>
     </div>
 
-    <div class="block-sub">
-      <span>Minutes: </span>
-      <input class="common-input">
+
+    <div *ngIf="!createdCondition || !createdCondition['type']" class="new-condition__types-options">
+
+      <button *ngFor="let item of conditions"
+              class="option-icon"
+              (click)="selectNewConditionType(item)">
+        <svg width="32" height="32">
+          <use [attr.xlink:href]="'assets/' + conditionIconName[item] + '.svg#' + conditionIconName[item]"></use>
+        </svg>
+      </button>
+
     </div>
+
+    <div class="block" *ngIf="!!createdCondition && createdCondition['type']">
+
+      <span>* Third party contract address: </span>
+      <input [formControl]="contractFormControl" class="common-input">
+
+      <span>* ABI: </span>
+      <textarea [formControl]="abiFormControl" class="common-input"></textarea>
+
+      <span>* Method name: </span>
+      <input [formControl]="methodNameFormControl" class="common-input">
+
+      <span>Parameters: </span>
+      <input [formControl]="parametersFormControl" class="common-input">
+
+      <ng-container *ngIf="ConditionType.booleanCheck !== createdCondition['type']">
+
+        <span>* Comparison value: </span>
+        <input [formControl]="comparisonValueFormControl" class="common-input">
+      </ng-container>
+
+      <p *ngIf="showErrorText" class="error-text">{{ showErrorText }}</p>
+    </div>
+
   </div>
-</div>
 
-<svg *ngIf="isSelectedCondition(ConditionType.timeExpiration) &&
-  (isSelectedCondition(ConditionType.takeProfit) || isSelectedCondition(ConditionType.stopLoss))" width="28" height="28"
-     class="and-icon">
-  <use xlink:href="assets/and.svg#and"></use>
-</svg>
-
-<div *ngIf="isSelectedCondition(ConditionType.takeProfit)" class="block">
-  <p class="block-title">Take profit</p>
-
-  <div class="block-sub">
-    <span>Desired price: </span>
-    <input class="common-input">
-  </div>
-</div>
-
-<svg *ngIf="isSelectedCondition(ConditionType.stopLoss) &&
-  (isSelectedCondition(ConditionType.takeProfit) || isSelectedCondition(ConditionType.timeExpiration))" width="28" height="28"
-     class="and-icon">
-  <use xlink:href="assets/and.svg#and"></use>
-</svg>
-
-<div *ngIf="isSelectedCondition(ConditionType.stopLoss)" class="block">
-  <p class="block-title">Stop loss</p>
-
-  <div class="block-sub">
-    <span>Extreme price: </span>
-    <input class="common-input">
-  </div>
-</div>
+</ng-container>

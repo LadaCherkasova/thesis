@@ -1,19 +1,16 @@
 import { Injectable } from "@angular/core";
 import { persistState, Store, StoreConfig } from "@datorama/akita";
-
-export enum ConditionType {
-  timeExpiration = 'timeExpiration',
-  takeProfit = 'takeProfit',
-  stopLoss = 'stopLoss',
-}
+import {LimitOrderPredicateCallData} from "@1inch/limit-order-protocol-utils/limit-order-predicate.builder";
 
 export interface ConditionsState {
-  selectedConditions: Set<ConditionType> | undefined;
+  expirationMs: number | undefined;
+  currentPredicate: LimitOrderPredicateCallData | undefined;
 }
 
 export function createInitialState(): ConditionsState {
   return {
-    selectedConditions: undefined,
+    expirationMs: undefined,
+    currentPredicate: undefined,
   };
 }
 

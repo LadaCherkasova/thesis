@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  height: unset !important;
+  background: rgb(222, 232, 254);
+  z-index: 1;
+}
+
+.condition-item {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option-icon {
+  margin: 0 20px -8px 0;
+
+  svg {
+    border-radius: 100%;
+    width: 24px;
+    padding: 2px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(27, 79, 180, 0.87);
+    color: rgba(27, 79, 180, 0.87);
+  }
+}
+
+.parameters-list {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.equation-part {
+  display: flex;
+  align-items: center;
+}
+
+.value {
+  font-weight: 900;
+  margin-left: 4px;
+  color: rgb(27 79 180);
+}
