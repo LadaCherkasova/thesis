@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ConditionsStore} from "../../services/conditions/conditions.state";
 import {ConditionsQuery} from "../../services/conditions/conditions.query";
 import {FormControl} from "@angular/forms";
@@ -11,7 +11,7 @@ import {BuildPredicateService} from "../../services/build-predicate.service";
   templateUrl: './conditions.component.html',
   styleUrls: ['./conditions.component.scss']
 })
-export class ConditionsComponent {
+export class ConditionsComponent implements OnInit, OnDestroy {
   readonly expirationMs$ = this.conditionsQuery.expirationMs$;
 
   readonly hoursFormControl = new FormControl<number>(0);
@@ -61,6 +61,12 @@ export class ConditionsComponent {
       })
     ).subscribe();
     this.subscription.add(expirationMsUpdate$);
+  }
+
+  ngOnInit() {
+    this.conditionsStore.update({
+      currentPredicate: undefined,
+    })
   }
 
   toggleTimeExpiration(): void {
@@ -115,7 +121,7 @@ export class ConditionsComponent {
       abiSource: this.abiFormControl.value,
       contractAddress: this.contractFormControl.value,
       methodName: this.methodNameFormControl.value,
-      parameters: parametersArray.length === 1 && parametersArray[0] === '' ? undefined : parametersArray,
+      parameters: parametersArray.length === 1 && parametersArray[0] === '' ? [] : parametersArray,
       comparisonValue: this.comparisonValueFormControl.value,
     };
 
@@ -123,6 +129,7 @@ export class ConditionsComponent {
       this.buildPredicateService.addConditionInCurrentPredicate(this.createdCondition);
     } catch(e) {
       this.showErrorText = 'Check fields values correctness';
+      console.log(e);
       return;
     }
 
@@ -139,5 +146,9 @@ export class ConditionsComponent {
     this.methodNameFormControl.reset();
     this.comparisonValueFormControl.reset();
     this.parametersFormControl.reset();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

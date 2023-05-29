@@ -1,13 +1,18 @@
 import {Injectable} from "@angular/core";
 import {
   LimitOrderPredicateBuilder,
-  LimitOrderProtocolFacade, NonceSeriesV2, SeriesNonceManagerFacade, SeriesNonceManagerPredicateBuilder,
+  LimitOrderPredicateDecoder,
+  LimitOrderProtocolFacade,
+  NonceSeriesV2,
+  PredicateTimestamp,
+  SeriesNonceManagerFacade,
+  SeriesNonceManagerPredicateBuilder,
   Web3ProviderConnector
 } from "@1inch/limit-order-protocol-utils";
 import {ConditionItem, ConditionType, predicateBuilderMethod} from "../components/conditions/condition.types";
 import {ConditionsStore} from "./conditions/conditions.state";
 import Web3 from "web3";
-import {chainId, contractAddress, seriesContractAddress} from "./contracts";
+import {chainId, contractAddress, seriesContractAddress} from "./constants";
 import {LimitOrderPredicateCallData} from "@1inch/limit-order-protocol-utils/limit-order-predicate.builder";
 import {TextToAbiService} from "./text-to-abi.service";
 import {TxStateStore} from "./tx/tx-state.store";
@@ -39,7 +44,7 @@ export class BuildPredicateService {
 
     const { and } = limitOrderPredicateBuilder;
 
-    return additionalPredicate
+    return !!additionalPredicate
       ? and(nonceRelatedPredicate, additionalPredicate)
       : nonceRelatedPredicate;
   }
@@ -69,7 +74,7 @@ export class BuildPredicateService {
     const { timestampBelowAndNonceEquals, nonceEquals } = seriesNonceManagerPredicateBuilder;
 
     if (!!expiration) {
-      const threshold = Math.floor(Date.now() / 1000) + expiration * 1000;
+      const threshold = Math.floor((Date.now() + expiration) / 1000) as PredicateTimestamp;
 
       return arbitraryStaticCall(
         seriesNonceManagerFacade,
@@ -123,12 +128,9 @@ export class BuildPredicateService {
 
     const staticCallPredicate = arbitraryStaticCall(source, callData);
 
-    const addedPredicate = condition.type = ConditionType.booleanCheck
+    const addedPredicate = condition.type === ConditionType.booleanCheck
       ? staticCallPredicate
-      : predicateBuilderMethod[condition.type](
-        condition.comparisonValue,
-        staticCallPredicate,
-      );
+      : this.getComparisonRelatedPredicate(condition, staticCallPredicate);
 
     const updatedPredicate = currentPredicate
       ? and(
@@ -139,7 +141,7 @@ export class BuildPredicateService {
 
     this.conditionsStore.update({
       currentPredicate: updatedPredicate,
-    })
+    });
   }
 
   getCallData(condition: ConditionItem): LimitOrderPredicateCallData {
@@ -150,6 +152,36 @@ export class BuildPredicateService {
       condition.contractAddress,
       condition.methodName,
       condition.parameters
+    );
+  }
+
+  getComparisonRelatedPredicate(condition: ConditionItem, callData: LimitOrderPredicateCallData): LimitOrderPredicateCallData {
+    const providerConnector = new Web3ProviderConnector(new Web3(Web3.givenProvider));
+    const limitOrderProtocolFacade = new LimitOrderProtocolFacade(
+      contractAddress,
+      chainId,
+      providerConnector,
+    );
+    const limitOrderPredicateBuilder = new LimitOrderPredicateBuilder(limitOrderProtocolFacade);
+    const { eq, lt, gt } = limitOrderPredicateBuilder;
+
+    if (condition.type === ConditionType.equalityCheck) {
+      return eq(
+        condition.comparisonValue,
+        callData,
+      );
+    }
+
+    if (condition.type === ConditionType.greaterComparison) {
+      return gt(
+        condition.comparisonValue,
+        callData,
+      );
+    }
+
+    return lt(
+      condition.comparisonValue,
+      callData,
     );
   }
 }

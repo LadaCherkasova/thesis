@@ -2,11 +2,11 @@ import {Injectable} from "@angular/core";
 import {
   LimitOrderBuilder,
   LimitOrderData,
-  LimitOrderDecoder,
+  LimitOrderDecoder, LimitOrderPredicateDecoder,
   Web3ProviderConnector
 } from "@1inch/limit-order-protocol-utils";
 import Web3 from "web3";
-import {chainId, contractAddress} from "./contracts";
+import {chainId, contractAddress} from "./constants";
 import {TxStateStore} from "./tx/tx-state.store";
 import {BuildPredicateService} from "./build-predicate.service";
 
@@ -49,14 +49,12 @@ export class BuildLimitOrderService {
     const limitOrderSignature = await limitOrderBuilder.buildOrderSignature(walletAddress, limitOrderTypedData);
     const limitOrderHash = limitOrderBuilder.buildLimitOrderHash(limitOrderTypedData);
 
+    console.log('limitOrderHash', limitOrderHash);
     return {
       orderHash: limitOrderHash,
       signature: limitOrderSignature,
       data: limitOrder,
       createDateTime: new Date().toISOString(),
-      // chainId,
-      // remainingMakingAmount: makingAmountValue.toString(),
-      // orderType: 'active',
     };
   }
 }

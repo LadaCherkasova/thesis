@@ -2,24 +2,26 @@ import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import { TxStateStore } from "./services/tx/tx-state.store";
 import Web3 from 'web3'
 import { TxStateQuery } from "./services/tx/tx-state.query";
-import {catchError, filter, lastValueFrom, map, Subscription, switchMap, tap, throwError} from "rxjs";
+import {catchError, filter, lastValueFrom, map, of, Subscription, switchMap, tap, throwError} from "rxjs";
 import { utils } from 'ethers';
 import { TxStateService } from "./services/tx/tx-state.service";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { WalletConnectionComponent } from "./components/wallet-connection/wallet-connection.component";
 import { MatDialog } from "@angular/material/dialog";
 import { fromPromise } from "rxjs/internal/observable/innerFrom";
-import { LimitOrderDecoder } from "@1inch/limit-order-protocol-utils";
+import {LimitOrderDecoder, LimitOrderPredicateDecoder, Web3ProviderConnector} from "@1inch/limit-order-protocol-utils";
 import {
   chainId,
   contractAddress,
   loEndpointEthereum,
   loWalletOrdersEndpoint,
   seriesContractAddress
-} from "./services/contracts";
+} from "./services/constants";
 import {HttpClient} from "@angular/common/http";
 import {FormControl} from "@angular/forms";
 import {BuildLimitOrderService} from "./services/build-limit-order.service";
+import {LimitOrderProtocolFacade} from "@1inch/limit-order-protocol-utils/limit-order-protocol.facade";
+import {ConditionsStore} from "./services/conditions/conditions.state";
 
 export const web3 = new Web3(Web3.givenProvider);
 
@@ -63,6 +65,7 @@ export class AppComponent implements OnDestroy {
     private matDialog: MatDialog,
     private httpClient: HttpClient,
     private buildLimitOrderService: BuildLimitOrderService,
+    private conditionsStore: ConditionsStore,
   ) {
     this.txStateStore.update({
       walletAddress: undefined,
@@ -112,6 +115,11 @@ export class AppComponent implements OnDestroy {
     const sendLimitOrder$ = fromPromise(this.buildLimitOrderService.createLimitOrderConfig()).pipe(
       switchMap((config) => {
         return this.httpClient.post<null>(loEndpointEthereum, config).pipe(
+          tap(() => {
+            this.conditionsStore.update({
+              currentPredicate: undefined,
+            })
+          }),
           catchError((error) => {
             return throwError(() => error);
           }),
@@ -122,22 +130,37 @@ export class AppComponent implements OnDestroy {
   }
 
   getOrders() {
+    const providerConnector = new Web3ProviderConnector(new Web3(Web3.givenProvider));
+    const limitOrderProtocolFacade = new LimitOrderProtocolFacade(
+      contractAddress,
+      chainId,
+      providerConnector,
+    );
+
     const myOrders$ = this.httpClient.get<null>(loWalletOrdersEndpoint, {
       params: {
         address: this.txStateStore.getValue().walletAddress,
       }
     }).pipe(
-      tap((result) => {
+      switchMap((result) => {
         if (!result) {
-          return;
+          return of(null);
         }
+        const index = 0;
 
-        console.log(result[0]['data']);
+        console.log(result);
 
-        const predicate = LimitOrderDecoder.unpackInteraction(result[0]['data'], 'predicate');
+        console.log(result[index]['data']);
 
-        console.log('predicate', predicate);
+        const predicate = LimitOrderDecoder.unpackInteraction(result[index]['data'], 'predicate');
+
+        const limitOrderPredicateDecoder = new LimitOrderPredicateDecoder(chainId);
+
+        console.log('decoded ', limitOrderPredicateDecoder.decode(predicate));
+
+        return fromPromise(limitOrderProtocolFacade.checkPredicate(result[index]['data']));
       }),
+      tap((checkPredicate) => console.log('checkPredicate ', checkPredicate)),
       catchError((error) => {
         return throwError(() => error);
       }),
