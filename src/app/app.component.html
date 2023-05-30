@@ -1,7 +1,7 @@
 <div class="header">
 
   <ng-container *tuiLet="transformedWalletAddress$ | async as address">
-    <img src="assets/metamask-logo.png" alt="">
+    <img src="assets/metamask-logo.png" alt="" (click)="getOrders()">
     <span>{{ address }}</span>
   </ng-container>
 
@@ -28,8 +28,21 @@
 
   <conditions></conditions>
 
-  <button class="submit-button" (click)="submit()">Submit limit order</button>
-
-  <button class="submit-button" (click)="getOrders()">Get orders</button>
+  <button class="submit-button" style="margin: 0 0 -10px 0" (click)="submit()">Submit limit order</button>
 
 </div>
+
+<ng-container *ngIf="activeOrders$ | async as orders">
+
+  <div *ngIf="orders && orders.length && show" class="active-orders">
+    <h3>Active orders</h3>
+
+    <div class="active-order-block" *ngFor="let order of orders">
+      <p>
+        <span>Hash:   </span>
+        <span>{{ transformAddress(order.orderHash) }}</span>
+      </p>
+
+    </div>
+  </div>
+</ng-container>

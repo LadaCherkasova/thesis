@@ -10,12 +10,27 @@
       </svg>
     </button>
 
-    <button class="option-icon"
-            (click)="addNewCondition()" >
-      <svg width="32" height="32">
-        <use xlink:href="assets/plus.svg#plus"></use>
-      </svg>
-    </button>
+
+    <div style="margin-left: auto; display: flex; align-items: center;">
+
+      <a href="https://etherscan.io/" target="_black" class="source-link">
+        <img src="assets/etherscan.png" alt="">
+      </a>
+
+      <a href="https://data.chain.link/" target="_blank" class="source-link">
+        <svg width="32" height="32" class="icon">
+          <use xlink:href="assets/chainlink.svg#chainlink"></use>
+        </svg>
+      </a>
+
+      <button class="option-icon"
+              (click)="addNewCondition()" >
+        <svg width="32" height="32">
+          <use xlink:href="assets/plus.svg#plus"></use>
+        </svg>
+      </button>
+    </div>
+
   </div>
 
   <div *ngIf="expiration !== undefined" class="block">

@@ -45,7 +45,7 @@ export class BuildPredicateService {
     const { and } = limitOrderPredicateBuilder;
 
     return !!additionalPredicate
-      ? and(nonceRelatedPredicate, additionalPredicate)
+      ? and(nonceRelatedPredicate, ...additionalPredicate)
       : nonceRelatedPredicate;
   }
 
@@ -121,26 +121,28 @@ export class BuildPredicateService {
     const limitOrderPredicateBuilder = new LimitOrderPredicateBuilder(limitOrderProtocolFacade);
 
     const currentPredicate = this.conditionsStore.getValue().currentPredicate;
-    const { and, arbitraryStaticCall } = limitOrderPredicateBuilder;
+    const { arbitraryStaticCall } = limitOrderPredicateBuilder;
 
     const source = condition.contractAddress;
     const callData = this.getCallData(condition);
 
     const staticCallPredicate = arbitraryStaticCall(source, callData);
 
-    const addedPredicate = condition.type === ConditionType.booleanCheck
+    const addedPredicate: LimitOrderPredicateCallData = condition.type === ConditionType.booleanCheck
       ? staticCallPredicate
       : this.getComparisonRelatedPredicate(condition, staticCallPredicate);
 
-    const updatedPredicate = currentPredicate
-      ? and(
-        currentPredicate,
-        addedPredicate
-      )
-      : addedPredicate;
+
+    if (!!currentPredicate) {
+      currentPredicate.push(addedPredicate);
+      this.conditionsStore.update({
+        currentPredicate: currentPredicate,
+      });
+      return;
+    }
 
     this.conditionsStore.update({
-      currentPredicate: updatedPredicate,
+      currentPredicate: [addedPredicate],
     });
   }
 

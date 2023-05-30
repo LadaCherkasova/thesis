@@ -4,7 +4,7 @@ import {LimitOrderPredicateCallData} from "@1inch/limit-order-protocol-utils/lim
 
 export interface ConditionsState {
   expirationMs: number | undefined;
-  currentPredicate: LimitOrderPredicateCallData | undefined;
+  currentPredicate: LimitOrderPredicateCallData[] | undefined;
 }
 
 export function createInitialState(): ConditionsState {

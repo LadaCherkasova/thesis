@@ -22,14 +22,6 @@
     &.time-expiration {
       color: rgba(27, 79, 180, 0.8);
     }
-
-    //&.stopLoss {
-    //  color: #ea6868;
-    //}
-    //
-    //&.takeProfit {
-    //  color: #2e852ec7;
-    //}
   }
 }
 
@@ -177,5 +169,16 @@
 
   .and-sign {
     display: none;
+  }
+}
+
+.source-link {
+  height: 32px;
+  margin-right: 12px;
+
+  svg, img {
+    width: 28px;
+    height: 28px;
+    opacity: 0.9;
   }
 }

@@ -2,7 +2,18 @@ import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import { TxStateStore } from "./services/tx/tx-state.store";
 import Web3 from 'web3'
 import { TxStateQuery } from "./services/tx/tx-state.query";
-import {catchError, filter, lastValueFrom, map, of, Subscription, switchMap, tap, throwError} from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  lastValueFrom,
+  map,
+  of,
+  Subscription,
+  switchMap,
+  tap,
+  throwError
+} from "rxjs";
 import { utils } from 'ethers';
 import { TxStateService } from "./services/tx/tx-state.service";
 import detectEthereumProvider from "@metamask/detect-provider";
@@ -55,6 +66,10 @@ export class AppComponent implements OnDestroy {
   readonly transformedWalletAddress$ = this.txStateQuery.walletAddress$.pipe(
     map(address => address ? address.slice(0, 4) + '...' + address.slice(-6) : undefined),
   );
+
+  readonly activeOrders$ = new BehaviorSubject<Array<any>>([]);
+
+  show = false;
 
   readonly subscription = new Subscription();
 
@@ -130,6 +145,7 @@ export class AppComponent implements OnDestroy {
   }
 
   getOrders() {
+    this.show = !this.show;
     const providerConnector = new Web3ProviderConnector(new Web3(Web3.givenProvider));
     const limitOrderProtocolFacade = new LimitOrderProtocolFacade(
       contractAddress,
@@ -150,6 +166,8 @@ export class AppComponent implements OnDestroy {
 
         console.log(result);
 
+        this.activeOrders$.next(result);
+
         console.log(result[index]['data']);
 
         const predicate = LimitOrderDecoder.unpackInteraction(result[index]['data'], 'predicate');
@@ -167,6 +185,15 @@ export class AppComponent implements OnDestroy {
     ).subscribe();
 
     this.subscription.add(myOrders$);
+  }
+
+  transformAddress(address: string): string {
+    return address.slice(0, 4) + '...' + address.slice(-7);
+  }
+
+  getDate(date) {
+    const datee = new Date(date);
+    return datee.getHours() + ':' + datee.getMinutes() + '  ' + datee.getDay() + '.' + datee.getMonth();
   }
 
   ngOnDestroy() {
