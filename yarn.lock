@@ -2,15 +2,16 @@
 # yarn lockfile v1
 
 
-"@1inch/limit-order-protocol-utils@3.1.2":
-  version "3.0.0-8a9d4db.0"
-  resolved "https://npm.pkg.github.com/download/@1inch/limit-order-protocol-utils/3.0.0-8a9d4db.0/5ce34608e8b3de0b5c82a2a12bc96fd98760022d#5ce34608e8b3de0b5c82a2a12bc96fd98760022d"
-  integrity sha512-VnjDewzwsqL5C0/86eImcALzA3cy6tXquebxg0Y7tQgYsS/dGgFvd2IwqfDpcHZQ3v+k0pVqh09ny3+Dk8K8Yg==
+"@1inch/limit-order-protocol-utils@^3.0.0-pre.3":
+  version "3.0.0-pre.3"
+  resolved "https://npm.pkg.github.com/download/@1inch/limit-order-protocol-utils/3.0.0-pre.3/66de02accc956cc8cbc2c32e860fd739499d7c9e#66de02accc956cc8cbc2c32e860fd739499d7c9e"
+  integrity sha512-MDQ2p1t9xmHz5XkPiBoNRWDOEkv6SwbSr1BrRbVl/7TeWH25rugdhxySakH6UrWkVn38slQ25GqEYMlT5gmL3Q==
   dependencies:
+    "@ethersproject/abi" "^5.1.1"
     "@ethersproject/bignumber" "^5.1.1"
     "@metamask/eth-sig-util" "^4.0.1"
     prompts "^2.4.1"
-    web3 "^1.5.1"
+    web3 "^1.8.1"
     yargs "^17.0.1"
 
 "@ampproject/remapping@2.2.1", "@ampproject/remapping@^2.2.0":
@@ -1614,7 +1615,7 @@
     "@ethereumjs/common" "^2.5.0"
     ethereumjs-util "^7.1.2"
 
-"@ethersproject/abi@5.7.0", "@ethersproject/abi@^5.6.3", "@ethersproject/abi@^5.7.0":
+"@ethersproject/abi@5.7.0", "@ethersproject/abi@^5.1.1", "@ethersproject/abi@^5.6.3", "@ethersproject/abi@^5.7.0":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/abi/-/abi-5.7.0.tgz#b3f3e045bbbeed1af3947335c247ad625a44e449"
   integrity sha512-351ktp42TiRcYB3H1OP8yajPeAQstMW/yCFokj/AthP9bLHzQFPlOrxOcwYEDkUAICmOHljvN4K39OMTMUa9RA==
@@ -9347,7 +9348,7 @@ web3-utils@1.10.0:
     randombytes "^2.1.0"
     utf8 "3.0.0"
 
-web3@^1.5.1, web3@^1.9.0:
+web3@^1.8.1, web3@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/web3/-/web3-1.10.0.tgz#2fde0009f59aa756c93e07ea2a7f3ab971091274"
   integrity sha512-YfKY9wSkGcM8seO+daR89oVTcbu18NsVfvOngzqMYGUU0pPSQmE57qQDvQzUeoIOHAnXEBNzrhjQJmm8ER0rng==
